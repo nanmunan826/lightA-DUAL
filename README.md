@@ -47,8 +47,8 @@ flowchart LR
 ## 快速复现
 
 ```
-git clone <仓库地址>
-cd lighta_dual_rcca2_e50_jetson_int8
+git clone https://github.com/nanmunan826/lightA-DUAL
+cd lightA-DUAL
 
 # 环境校验
 python3 -c "import tensorrt as trt; print(trt.__version__)"
