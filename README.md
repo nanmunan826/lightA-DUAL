@@ -47,7 +47,7 @@ flowchart LR
 ## 快速复现
 
 ```
-git clone https://github.com/nanmunan826/lightA-DUAL
+git clone https://github.com/nanmunan826/lightA-DUAL.git
 cd lightA-DUAL
 
 # 环境校验
