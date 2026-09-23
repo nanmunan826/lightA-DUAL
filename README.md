@@ -99,19 +99,17 @@ timeout 900 python3 scripts/jetson_infer_trt_latency_ssim.py --package-dir . --i
 ```
 
 ### ssim脚本完整命令行参数列表
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| `--package-dir` | Path | 是 | — | 项目根目录，包含 `models/`、`engines/` |
+| `--input` | Path | 是 | — | 输入图像或目录（本模型中是欠采样图像目录） |
+| `--output-dir` | Path | 是 | — | 输出目录（npy、CSV、可选 PNG） |
+| `--precision` | choice | 否 | `int8` | `fp32` / `fp16` / `int8` |
+| `--baseline-fp32` | flag | 否 | 不启用 | 启用 FP32 基准对比 |
+| `--warmup` | int | 否 | `10` | 预热图片数量 |
+| `--reference-dir` | Path | 否 | 自动推导 | GT 目录（全采样图像目录），默认 `<input_parent>/reference` |
+| `--save-png` | flag | 否 | 不启用 | 是否保存重建 PNG |
 
-```
-|参数|类型|必填|默认值|说明|
-| --- | --- |---| --- | --- |
-|package-dir|Path|是|—	|项目根目录，包含 models/、engines/|
-|input	|Path|是|	—	|输入图像或目录(本模型中是欠采样图像目录)|
-|output-dir	|Path|	是|—|	输出目录（npy、CSV、可选 PNG）|
-|precision	|choice|	可选|	int8|	fp32 / fp16 / int8|
-|baseline-fp32	|flag|	false|	False|	启用 FP32 基准对比|
-|warmup|int	|可选|	10|	预热图片数量|
-|reference-dir	|Path|	false|	自动推导	GT 目录(即全采样图像目录)，默认 <input_parent>/reference|
-|save-png	|flag|	可选|	False	|是否保存重建 PNG|
-```
 ## 输出说明
 
 - `reconstructions_*.npy`：全部重建图像数组，shape `(1176,256,256)`
