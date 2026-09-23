@@ -1,0 +1,21 @@
+{
+  "package": "lighta_dual_rcca2_e50_jetson_int8",
+  "source_run": "F:\\lxq_unet\\Models\\checkpoints\\lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50",
+  "calibration": {
+    "sample_count": 800,
+    "seed": 905,
+    "source": "random subset of the 6,400 training pairs used by this run",
+    "frequency_tensor": "frequency_input_float32.npy",
+    "spatial_tensor": "spatial_input_float32.npy"
+  },
+  "test_data": {
+    "sample_count": 1176,
+    "source": "latest selected high-quality showcase",
+    "index": "test_data/test_data_index.csv"
+  },
+  "model_sha256": {
+    "frequency.onnx": "76e600db501521f9a989cd9e42acea26d78bbb92e23466f26cec5ae886579a81",
+    "spatial.onnx": "529dd4382aa571642d37547bb2b265bd68c32bb3b73b33f6ff7d8d20ce27ba9b",
+    "manifest.json": "f86e905010fd755c59e72977287ca41c5aba6e4e7b0c24736a5a0e9907427ef2"
+  }
+}

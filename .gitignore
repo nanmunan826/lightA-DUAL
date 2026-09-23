@@ -1,0 +1,86 @@
+# ========== 模型、编译产物 ==========
+build/
+*.engine
+*.trt
+# ========== Python 缓存与虚拟环境 ==========
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+trt_env/
+# ========== 数据集、中间保存数据（大文件不上git） ==========
+data/
+dataset/
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+output/
+input/
+inference/
+calibration/images
+# #如有png，一并加上
+calibration/images/*.jpg
+calibration/images/*.jpeg
+test_data/input
+test_data/reference
+#
+# ========== 模型权重文件 ==========
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+# ========== 日志、可视化输出 ==========
+*.log
+*.out
+*.err
+runs/
+tb_logs/
+events.out.tfevents*
+calibration_cache/
+scripts/*.md
+# ========== Jupyter 相关 ==========
+.ipynb_checkpoints/
+
+# ========== 压缩包、临时文件 ==========
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ========== Linux / Jetson 系统杂项 ==========
+.DS_Store
+Thumbs.db
+*~
+# nano编辑器临时文件
+*.swp
+*.swo
+
+# ========== 本地配置（防止个人本地路径、密钥提交） ==========
+*.env
+config_local.yaml
+local_settings.py
+
+# 运行产物（可重建，不入库）
+engines/
+calibration_cache/
+output_fp16/
+output_int8/
+output_fp32/
+log/
+infer_*.log
+benchmark/
+
+# 常规
+__pycache__/
+*.pyc
+.vscode/
+.DS_Store
+

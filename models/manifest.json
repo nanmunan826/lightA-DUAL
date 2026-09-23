@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_run": "F:\\lxq_unet\\Models\\checkpoints\\lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50",
+  "weights": "F:\\lxq_unet\\Models\\checkpoints\\lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50\\best.hdf5",
+  "opset": 13,
+  "fixed_shapes": {
+    "frequency_input": [
+      1,
+      256,
+      256,
+      2
+    ],
+    "spatial_input": [
+      1,
+      256,
+      256,
+      1
+    ]
+  },
+  "pipeline": [
+    "frequency.onnx",
+    "external_ifft2_physical",
+    "spatial.onnx"
+  ],
+  "normalization": {
+    "mean": 0.0008982029394246638,
+    "std": 0.3678707778453827,
+    "fft_scale": 256.0
+  },
+  "tensorrt_note": "IFFT is intentionally external; use cuFFT/CuPy or a TensorRT DFT plugin only after target validation."
+}
