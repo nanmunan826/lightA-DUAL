@@ -4,6 +4,23 @@
 - 网络：频域空域联合重构，编码器加入cross-attention，约束损失增强高频细节
 - 训练指标（训练端，非部署实测）：SSIM+5.87%，PSNR+6.53%，增加1.768dB
 - 部署链路：TensorRT不支持IFFT算子，拆分为`frequency.onnx` + `spatial.onnx`，中间FP32 IFFT衔接；固定输入`batch=1,256×256`
+- 模型版本：lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50
+<details>
+<summary>查看模型版本命名说明</summary>
+
+| 字段 | 含义 |
+|---|---|
+| `lighta_dual` | LightA频域—空域双域网络 |
+| `logmagphase70` | 频域幅值与相位损失，权重为0.7 |
+| `mse_ssim10` | 空域使用MSE与SSIM损失，SSIM权重为0.1 |
+| `w075` | 网络宽度倍率为0.75 |
+| `l2` | 每个网络块包含2层 |
+| `rcca2` | 频域和空域均执行2次RCCA循环 |
+| `e50` | 最大训练轮数为50个epoch |
+
+`best.hdf5`为验证集指标最优的权重，不一定来自第50轮。
+
+</details>
 
 ```mermaid
 flowchart LR
