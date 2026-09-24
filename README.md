@@ -19,13 +19,13 @@ flowchart LR
 ```
 .
 ├── models/            # frequency.onnx, spatial.onnx, manifest.json
-├── calibration/       # INT8校准张量 + calibration_index.csv
+├── calibration/       # INT8校准张量（测试用16张） + calibration_index.csv
 ├── calibration_cache/ # INT8校准缓存（构建生成）
-├── engines/           # .engine文件，平台绑定，不上传git
+├── engines/           # .engine文件，平台绑定，未上传git（运行后生成）
 ├── scripts/           # 构建&推理脚本
 ├── test_data/         # input欠采样图，reference全采样GT
-├── benchmark/         # trtexec延迟json
-├── log/               # 运行日志
+├── benchmark/         # trtexec延迟json（运行后生成）
+├── log/               # 运行日志（运行后生成）
 ├── output_fp16/ output_int8/ output_fp32/ #推理输出
 └── package_manifest.json
 ```
@@ -58,7 +58,7 @@ python3 -c "import tensorrt as trt; print(trt.__version__)"
 /usr/src/tensorrt/bin/trtexec --onnx=models/frequency.onnx --saveEngine=engines/frequency_fp16.engine --fp16 --verbose
 /usr/src/tensorrt/bin/trtexec --onnx=models/spatial.onnx --saveEngine=engines/spatial_fp16.engine --fp16 --verbose
 
-# 构建INT8 engine（校准张量已内置仓库）
+# 构建INT8 engine（校准张量已内置仓库（仓库仅提供16张校准包测试用，如想完整复现本文结果需使用800张校准包））
 python3 scripts/jetson_build_int8.py --onnx=models/frequency.onnx --calibration=calibration/frequency_input_float32.npy --cache=calibration_cache/frequency.cache --engine=engines/frequency_int8.engine
 python3 scripts/jetson_build_int8.py --onnx=models/spatial.onnx --calibration=calibration/spatial_input_float32.npy --cache=calibration_cache/spatial.cache --engine=engines/spatial_int8.engine
 
@@ -129,7 +129,7 @@ timeout 900 python3 scripts/jetson_infer_trt_latency_ssim.py --package-dir . --i
 | INT8 | 30.79 | 33.79 | 28.4781 | 0.8667 | 32.48 |
 
 > 
-> 量化损失：INT8相对FP32，PSNR损失仅0.40dB，SSIM损失0.007，量化几乎无损。
+> 量化损失：INT8相对FP32，PSNR损失仅0.40dB，SSIM损失0.007，量化几乎无损。需注意该测试是基于800张校准集校准后模型测得。
 
 ## 已知问题
 
