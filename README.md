@@ -1,12 +1,30 @@
 ## 模型概述
+
+| 项目 | 说明 |
+|---|---|
+| 任务 | 8%～10%极稀疏采样傅里叶单像素成像重建 |
+| 网络 | 频域—空域联合重建，并使用Criss-Cross Attention增强特征表达 |
+| 测试指标 | 在1176张测试图像上，PSNR提升1.768 dB（6.52%），SSIM提升5.87% |
+| 部署链路 | `frequency.onnx` → FP32 IFFT → `spatial.onnx` |
+| 输入规格 | 灰度图像，`batch=1`，分辨率`256×256` |
+| 模型版本 | `lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50` |
+
+为兼容当前TensorRT部署环境，模型被拆分为频域和空域两个ONNX子模型，中间的IFFT使用FP32在模型外部执行。
+
+```mermaid
+flowchart LR
+    A[欠采样图像] --> B[图像预处理]
+    B --> C[FFT与实虚通道归一化]
+    C --> D[frequency.onnx]
+    D --> E[反归一化与FP32 IFFT]
+    E --> F[spatial.onnx]
+    F --> G[重建图像]
 ```
-- 任务：8%~10%极稀疏采样傅里叶单像素成像重建
-- 网络：频域空域联合重构，编码器加入cross-attention，约束损失增强高频细节
-- 训练指标（训练端，非部署实测）：SSIM+5.87%，PSNR+6.53%，增加1.768dB
-- 部署链路：TensorRT不支持IFFT算子，拆分为`frequency.onnx` + `spatial.onnx`，中间FP32 IFFT衔接；固定输入`batch=1,256×256`
-- 模型版本：lighta_dual_logmagphase70_mse_ssim10_w075_l2_rcca2_e50
+
 <details>
-<summary>查看模型版本命名说明</summary>
+<summary><strong>查看模型版本命名说明</strong></summary>
+
+<br>
 
 | 字段 | 含义 |
 |---|---|
@@ -21,15 +39,6 @@
 `best.hdf5`为验证集指标最优的权重，不一定来自第50轮。
 
 </details>
-
-```mermaid
-flowchart LR
-    A[欠采样图像] --> B[预处理<br/>/255, fft2/256, 实虚通道归一化]
-    B --> C[frequency.onnx]
-    C --> D[反归一化<br/>real ifft2 * 256]
-    D --> E[spatial.onnx]
-    E --> F[重建图像]
-```
 
 ## 目录结构
 
