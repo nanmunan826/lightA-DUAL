@@ -64,6 +64,15 @@ python3 scripts/jetson_build_int8.py --onnx=models/spatial.onnx --calibration=ca
 
 # 基础推理
 python3 scripts/jetson_infer_trt.py --package-dir . --input test_data/input --output-dir output_int8 --precision int8
+
+# 生成校准包（可用于生成800张校准包）
+python3 calibration/prepare_jetson_package.py \
+  --run-dir Models/checkpoints/<model_name> \
+  --onnx-dir Deployment/<onnx_model_dir>/models \
+  --output-dir Deployment/<output_package_name> \
+  --calibration-count 800 \
+  --seed 905 \
+  --test-metrics path/to/per_image.csv
 ```
 ## 脚本版本说明
 
@@ -117,6 +126,7 @@ timeout 900 python3 scripts/jetson_infer_trt_latency_ssim.py --package-dir . --i
 - 指标区分：
   1. vs GT：重建图像与全采样真值对比，表征模型重建质量
   2. vs FP32 baseline：INT8与FP32推理结果对比，表征量化损失
+
 
 
 
