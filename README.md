@@ -2,7 +2,7 @@
 ```
 - 任务：8%~10%极稀疏采样傅里叶单像素成像重建
 - 网络：频域空域联合重构，编码器加入cross-attention，约束损失增强高频细节
-- 训练指标（训练端，非部署实测）：SSIM+6.10%，PSNR+5.35%onnxruntime-gpuDNIDEXIUGAICHUXIANLECUOWUL，单幅重建约35ms
+- 训练指标（训练端，非部署实测）：SSIM+5.87%，PSNR+6.53%，增加1.768dB
 - 部署链路：TensorRT不支持IFFT算子，拆分为`frequency.onnx` + `spatial.onnx`，中间FP32 IFFT衔接；固定输入`batch=1,256×256`
 
 ```mermaid
@@ -101,14 +101,14 @@ timeout 900 python3 scripts/jetson_infer_trt_latency_ssim.py --package-dir . --i
 ### ssim脚本完整命令行参数列表
 | 参数 | 类型 | 必填 | 默认值 | 说明 |
 |------|------|------|--------|------|
-| `--package-dir` | Path | 是 | — | 项目根目录，包含 `models/`、`engines/` |
-| `--input` | Path | 是 | — | 输入图像或目录（本模型中是欠采样图像目录） |
-| `--output-dir` | Path | 是 | — | 输出目录（npy、CSV、可选 PNG） |
-| `--precision` | choice | 否 | `int8` | `fp32` / `fp16` / `int8` |
-| `--baseline-fp32` | flag | 否 | 不启用 | 启用 FP32 基准对比 |
-| `--warmup` | int | 否 | `10` | 预热图片数量 |
-| `--reference-dir` | Path | 否 | 自动推导 | GT 目录（全采样图像目录），默认 `<input_parent>/reference` |
-| `--save-png` | flag | 否 | 不启用 | 是否保存重建 PNG |
+| `package-dir` | Path | 是 | — | 项目根目录，包含 `models/`、`engines/` |
+| `input` | Path | 是 | — | 输入图像或目录（本模型中是欠采样图像目录） |
+| `output-dir` | Path | 是 | — | 输出目录（npy、CSV、可选 PNG） |
+| `precision` | choice | 否 | `int8` | `fp32` / `fp16` / `int8` |
+| `baseline-fp32` | flag | 否 | 不启用 | 启用 FP32 基准对比 |
+| `warmup` | int | 否 | `10` | 预热图片数量 |
+| `reference-dir` | Path | 否 | 自动推导 | GT 目录（全采样图像目录），默认 `<input_parent>/reference` |
+| `save-png` | flag | 否 | 不启用 | 是否保存重建 PNG |
 
 ## 输出说明
 
